@@ -8,7 +8,7 @@ Requirements
 ------------
 
 *   [Django >= 1.6](https://www.djangoproject.com/)
-*   [lxml](https://pypi.python.org/pypi/lxml/3.6.4)
+*   [html5lib](https://pypi.python.org/pypi/lxml/3.6.4)
 *   [requests](https://pypi.python.org/pypi/requests/2.11.1)
 *   [sorl-thumbnail](https://github.com/mariocesar/sorl-thumbnail)
 *   [Pillow](https://pypi.python.org/pypi/Pillow/3.3.1)

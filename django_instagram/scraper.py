@@ -5,7 +5,7 @@ Created on 04/sep/2016
 """
 
 from socket import error as socket_error
-from lxml import html
+import html5lib as html
 import requests
 from requests.exceptions import ConnectionError, HTTPError
 import json
@@ -26,7 +26,7 @@ def instagram_scrap_profile(username):
         page = requests.get(url)
         # Raise error for 404 cause by a bad profile name
         page.raise_for_status()
-        return html.fromstring(page.content)
+        return html.parse(page.content, treebuilder="dom")
     except HTTPError:
         logging.exception('user profile "{}" not found'.format(username))
     except (ConnectionError, socket_error) as e:
@@ -41,7 +41,7 @@ def instagram_profile_js(username):
     """
     try:
         tree = instagram_scrap_profile(username)
-        return tree.xpath('//script')
+        return tree.getElementsByTagName("script")
     except AttributeError:
         logging.exception("scripts not found")
         return None
@@ -58,9 +58,9 @@ def instagram_profile_json(username):
 
     if scripts:
         for script in scripts:
-            if script.text:
-                if script.text[0:SCRIPT_JSON_PREFIX] == "window._sharedData":
-                    source = script.text[SCRIPT_JSON_DATA_INDEX:-1]
+            if script.hasChildNodes():
+                if script.firstChild.data[0:SCRIPT_JSON_PREFIX] == "window._sharedData":
+                    source = script.firstChild.data[SCRIPT_JSON_DATA_INDEX:-1]
 
     return source
 
@@ -72,4 +72,5 @@ def instagram_profile_obj(username):
     :return:
     """
     json_data = instagram_profile_json(username)
+
     return json.loads(json_data) if json_data else None
