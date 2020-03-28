@@ -4,18 +4,20 @@ Created on 04/sep/2016
 @author: Marco Pompili
 """
 
-from socket import error as socket_error
 import html5lib as html
-import requests
-from requests.exceptions import ConnectionError, HTTPError
 import json
 import logging
+import requests
+
+from socket import error as socket_error
+from requests.exceptions import ConnectionError, HTTPError
+
 
 SCRIPT_JSON_PREFIX = 18
 SCRIPT_JSON_DATA_INDEX = 21
 
 
-def instagram_scrap_profile(username):
+def instagram_scrape_profile(username):
     """
     Scrap an instagram profile page
     :param username:
@@ -40,7 +42,7 @@ def instagram_profile_js(username):
     :return:
     """
     try:
-        tree = instagram_scrap_profile(username)
+        tree = instagram_scrape_profile(username)
         return tree.getElementsByTagName("script")
     except AttributeError:
         logging.exception("scripts not found")

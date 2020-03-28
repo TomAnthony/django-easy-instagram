@@ -1,11 +1,8 @@
-django-instagram
-================
+# django-instagram-helper
 
-A Django application that allows to use some template tags for displaying content
-from an Instagram public profile.
+A Django application that provides a template tag for displaying content from a public Instagram profile. Has ability to cache files locally.
 
-Requirements
-------------
+## Requirements
 
 *   [Django >= 1.6](https://www.djangoproject.com/)
 *   [html5lib](https://pypi.python.org/pypi/lxml/3.6.4)
@@ -13,12 +10,9 @@ Requirements
 *   [sorl-thumbnail](https://github.com/mariocesar/sorl-thumbnail)
 *   [Pillow](https://pypi.python.org/pypi/Pillow/3.3.1)
 
-Installation
-------------
+## Installation
 
-Install Django with your favourite Linux packaging system or you can use pip
-for installing python packages, if Django is not an official package for
-your distribution:
+Install Django with your favourite Linux packaging system or you can use pip for installing python packages, if Django is not an official package for your distribution:
 
 ```bash
 pip install django
@@ -32,8 +26,7 @@ pip install django-instagram
 
 Pip should take care of the package dependencies for Django Instagram.
 
-Configuration
--------------
+## Configuration
 
 Add the application to INSTALLED_APPS:
 
@@ -44,8 +37,7 @@ INSTALLED_APPS = (
                   'django_instagram',)
 ```
 
-Rebuild your application database, this command depends on which
-version of Django you are using.
+Rebuild your application database, this command depends on which version of Django you are using.
 
 In Django 2.0 (recommended):
 
@@ -59,26 +51,11 @@ Them migrate the db:
 python manage.py migrate
 ```
 
-Usage
------
+## Usage
 
 The `instagram_user_recent_media` brings into context two objects:
   - `profile`: Contains the who scraped object.
   - `recent_media`: Contains the recent media, like 10 or 12 entries or so.
-
-A Django `urls.py` example using a `TemplateView` View class with a context variable called `instagram_profile_name`:
-
-```python
-from django.contrib import admin
-from django.urls import path
-from django.views.generic import TemplateView
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html', extra_context={
-        "instagram_profile_name": "amd"
-    })),
-]
-```
 
 You can display the data contained in `recent_media` list like this:
 
@@ -110,31 +87,13 @@ You can display the data contained in `recent_media` list like this:
 </html>
 ```
 
-There are also two inclusion tags that includes an example of
-how to parse data from Instagram, you can also use them like
-this:
+## Resizing and Caching Images
 
-```html
-{% load instagram_client %}
+You are able to resize images, which will also mean they are cached locally rather than being loaded from Instagram's servers.
 
-<h1>Instagram media wall</h1>
-{% instagram_recent_media_wall username="intel" %}
+To enable this, ensure you have `sorl.thumbnail` in the INSTALLED_APPS, and that you have setup [Django caching](https://docs.djangoproject.com/en/2.2/topics/cache/).
 
-<h1>Instagram sliding box</h1>
-{% instagram_recent_media_box username="intel" %}
-```
-
-Resizing and Caching Images
--------
-
-You are able to resize images, which will also mean they are cached
-locally rather than being loaded from Instagram's servers.
-
-To enable this, ensure you have `sorl.thumbnail` in the INSTALLED_APPS,
-and that you have setup [Django caching](https://docs.djangoproject.com/en/2.2/topics/cache/).
-
-In order for requests to Instagram to work properly, you will need to
-ensure you set the `sorl.thumbail` setting:
+In order for requests to Instagram to work properly, you will need to ensure you set the `sorl.thumbail` setting:
 
 ```bash
 THUMBNAIL_REMOVE_URL_ARGS = False
@@ -159,11 +118,6 @@ override this you can use this setting:
 INSTAGRAM_QUALITY = 90
 ```
 
+## Thanks
 
-Releases
---------
-*   0.3.1 Template tag accepts context variables.
-*   0.3.0 Updates to the scraping algorithm.
-*   0.2.0 New scraping algorithm, removed Python Instagram.
-*   0.1.1 Numerous bug fixes, better documentation.
-*   0.1.0 Work in progress version.
+The original version and most of the actual work was done by Marco Pompili in the version [available here](https://github.com/marcopompili/django-instagram).
