@@ -7,6 +7,7 @@ Created on 12/dic/2013
 import logging
 
 from django import template
+from django.conf import settings as user_settings
 
 from sorl.thumbnail import get_thumbnail, delete
 
@@ -104,19 +105,7 @@ def instagram_recent_media_wall(*args, **kwargs):
     }
 
 
-@register.filter(name='standard_size')
-def instagram_standard_size(value):
-    im = get_thumbnail(value, settings.INSTAGRAM_STANDARD_SIZE, crop='center', quality=settings.INSTAGRAM_QUALITY)
-    return im.url
-
-
-@register.filter(name='low_resolution')
-def instagram_low_resolution(value):
-    im = get_thumbnail(value, settings.INSTAGRAM_LOW_SIZE, crop='center', quality=settings.INSTAGRAM_QUALITY)
-    return im.url
-
-
-@register.filter(name='thumbnail')
-def instagram_thumbnail(value):
-    im = get_thumbnail(value, settings.INSTAGRAM_THUMB_SIZE, crop='center', quality=settings.INSTAGRAM_QUALITY)
+@register.filter(name='local_cache')
+def local_cache(value, size="600x600"):
+    im = get_thumbnail(value, size, crop='center', quality=settings.INSTAGRAM_QUALITY)
     return im.url

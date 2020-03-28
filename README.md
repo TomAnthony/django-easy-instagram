@@ -124,43 +124,41 @@ this:
 {% instagram_recent_media_box username="intel" %}
 ```
 
-Filters
+Resizing and Caching Images
 -------
 
-As you may have noticed some filters can be used for sizing the pictures.
-Make sure you have `sorl.thumbnail` in the INSTALLED_APPS to use these.
+You are able to resize images, which will also mean they are cached
+locally rather than being loaded from Instagram's servers.
 
-Here is the list of the usable fitlers:
+To enable this, ensure you have `sorl.thumbnail` in the INSTALLED_APPS,
+and that you have setup [Django caching](https://docs.djangoproject.com/en/2.2/topics/cache/).
 
-For standard size:
+In order for requests to Instagram to work properly, you will need to
+ensure you set the `sorl.thumbail` setting:
+
+```bash
+THUMBNAIL_REMOVE_URL_ARGS = False
+```
+
+You can then use the `local_cache` template filter and specify a size:
 
 ```html
 {% for media in recent_media %}
 ...
-<img src="{{ media.thumbnail_src|standard_size }}"/>
+<img src="{{ media.thumbnail_src|local_cache:'332x332' }}"/>
 ...
 {% endfor %}
 ```
 
-For low resolution images:
+The images will be saved locally in a cache.
 
-```html
-{% for media in recent_media %}
-...
-<img src="{{ media.thumbnail_src|low_resolution }}"/>
-...
-{% endfor %}
+By default images will be resized and saved at 80% JPG quality, to
+override this you can use this setting:
+
+```bash
+INSTAGRAM_QUALITY = 90
 ```
 
-For thumbnail size:
-
-```html
-{% for media in recent_media %}
-...
-<img src="{{ media.thumbnail_src|thumbnail }}"/>
-...
-{% endfor %}
-```
 
 Releases
 --------
