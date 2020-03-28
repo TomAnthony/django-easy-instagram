@@ -1,4 +1,4 @@
-# django-instagram-helper
+# django-instagram
 
 A Django application that provides a template tag for displaying content from a public Instagram profile. Has ability to cache files locally.
 
