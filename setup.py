@@ -6,7 +6,7 @@ Created on 24/gen/2014
 
 import os
 from setuptools import setup, find_packages
-from django_feasy_instagram import __version__
+from django_easy_instagram import __version__
 
 setup(
     name='django-easy-instagram',
