@@ -33,10 +33,10 @@ Pip should take care of the package dependencies for Django Easy Instagram.
 Add the application to INSTALLED_APPS:
 
 ```python
-INSTALLED_APPS = (
-                  ...
-                  'sorl.thumbnail', # required for thumbnail support
-                  'django_easy_instagram',)
+  INSTALLED_APPS = (
+    ...
+    'sorl.thumbnail', # required for thumbnail support
+    'django_easy_instagram',)
 ```
 
 Rebuild your application database, this command depends on which version of Django you are using.

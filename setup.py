@@ -9,10 +9,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-easy-instagram',
-    version="0.3.2",
+    version='0.3.2',
     description='Instagram client for Django.',
-    long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
+    long_description=open('README.md', encoding='utf-8').read(),
     author='Tom Anthony, Marco Pompili',
     author_email='django@tomanthony.co.uk',
     license='BSD-3 License',
