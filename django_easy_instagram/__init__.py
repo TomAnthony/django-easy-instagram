@@ -1,8 +1,6 @@
 from django.conf import settings as user_settings
 from . import settings as default_settings
 
-__version__ = "0.3.2"
-
 class AppSettings:
     def __getattr__(self, name):
         # If the setting you want is filled by the user, let's use it.

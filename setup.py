@@ -6,11 +6,10 @@ Created on 24/gen/2014
 
 import os
 from setuptools import setup, find_packages
-from django_easy_instagram import __version__
 
 setup(
     name='django-easy-instagram',
-    version=__version__,
+    version="0.3.2",
     description='Instagram client for Django.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
