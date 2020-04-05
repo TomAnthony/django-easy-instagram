@@ -1,6 +1,8 @@
-# django-instagram
+# django-easy-instagram
 
 A Django application that provides a template tag for displaying content from a public Instagram profile. Has ability to cache files locally.
+
+This is derived from [Marco Pompili's version](https://github.com/marcopompili/django-instagram), which has different requirements and options. Thanks to Marco for doing all the hard work.
 
 ## Requirements
 
@@ -18,13 +20,13 @@ Install Django with your favourite Linux packaging system or you can use pip for
 pip install django
 ```
 
-Use pip to install Django Instagram:
+Use pip to install Django Easy Instagram:
 
 ```bash
-pip install django-instagram
+pip install django-easy-instagram
 ```
 
-Pip should take care of the package dependencies for Django Instagram.
+Pip should take care of the package dependencies for Django Easy Instagram.
 
 ## Configuration
 
@@ -34,7 +36,7 @@ Add the application to INSTALLED_APPS:
 INSTALLED_APPS = (
                   ...
                   'sorl.thumbnail', # required for thumbnail support
-                  'django_instagram',)
+                  'django_easy_instagram',)
 ```
 
 Rebuild your application database, this command depends on which version of Django you are using.
@@ -42,7 +44,7 @@ Rebuild your application database, this command depends on which version of Djan
 In Django 2.0 (recommended):
 
 ```bash
-python manage.py makemigrations django_instagram
+python manage.py makemigrations django_easy_instagram
 ```
 
 Them migrate the db:
@@ -74,7 +76,7 @@ You can display the data contained in `recent_media` list like this:
 <div id="django_recent_media_wall">
     {% instagram_user_recent_media instagram_profile_name %}
     {% for media in recent_media %}
-        <div class="django_instagram_media_wall_item">
+        <div class="django_easy_instagram_media_wall_item">
             <a href="//instagram.com/p/{{ media.shortcode }}" target="_blank">
                 <img src="{{ media.thumbnail_src }}"/>
                 <span>{{ media.edge_media_to_caption.edges.0.node.text }}</span>
@@ -112,7 +114,7 @@ You can then use the `local_cache` template filter and specify a size:
 The images will be saved locally in a cache.
 
 By default images will be resized and saved at 80% JPG quality, to
-override this you can use this setting:
+override this you can use this setting in your Django settings file:
 
 ```bash
 INSTAGRAM_QUALITY = 90

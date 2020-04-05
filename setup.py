@@ -12,20 +12,20 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name=str('django-instagram'),
-    version=str('0.3.1'),
+    name=str('django-easy-instagram'),
+    version=str('0.3.2'),
     description=str('Instagram client for Django.'),
     long_description=README,
-    author=str('Marco Pompili'),
-    author_email=str('django@odd.red'),
+    author=str('Tom Anthony, Marco Pompili'),
+    author_email=str('django@tomanthony.co.uk'),
     license=str('BSD-3 License'),
-    url=str('https://github.com/marcopompili/django-instagram'),
+    url=str('https://github.com/TomAnthony/django-easy-instagram/'),
     packages=find_packages(),
-    plarforms='any',
+    platforms='any',
     include_package_data=True,
     install_requires=[
         'django>=1.6',
-        'lxml',
+        'html5lib',
         'requests',
         'sorl-thumbnail',
         'Pillow',
