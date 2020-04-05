@@ -6,20 +6,18 @@ Created on 24/gen/2014
 
 import os
 from setuptools import setup, find_packages
-
-README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
-
-os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+from django_feasy_instagram import __version__
 
 setup(
-    name=str('django-easy-instagram'),
-    version=str('0.3.2'),
-    description=str('Instagram client for Django.'),
-    long_description=README,
-    author=str('Tom Anthony, Marco Pompili'),
-    author_email=str('django@tomanthony.co.uk'),
-    license=str('BSD-3 License'),
-    url=str('https://github.com/TomAnthony/django-easy-instagram/'),
+    name='django-easy-instagram',
+    version=__version__,
+    description='Instagram client for Django.',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    author='Tom Anthony, Marco Pompili',
+    author_email='django@tomanthony.co.uk',
+    license='BSD-3 License',
+    url='https://github.com/TomAnthony/django-easy-instagram/',
     packages=find_packages(),
     platforms='any',
     include_package_data=True,
