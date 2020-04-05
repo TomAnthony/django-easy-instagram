@@ -10,5 +10,5 @@ venv/
 
 build
 dist
-django_instagram.egg-info
+django_easy_instagram.egg-info
 migrations/

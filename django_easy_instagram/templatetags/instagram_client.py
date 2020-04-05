@@ -11,8 +11,8 @@ from django.conf import settings as user_settings
 
 from sorl.thumbnail import get_thumbnail, delete
 
-from django_instagram import settings
-from django_instagram.scraper import instagram_profile_obj
+from django_easy_instagram import settings
+from django_easy_instagram.scraper import instagram_profile_obj
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler()
@@ -82,27 +82,6 @@ def instagram_user_recent_media(parser, token):
         raise template.TemplateSyntaxError(
             "%r tag requires a single argument" % token.contents.split()[0]
         )
-
-@register.inclusion_tag('django_instagram/recent_media_box.html')
-def instagram_recent_media_box(*args, **kwargs):
-    profile = instagram_profile_obj(username=kwargs.get('username'))
-    recent_media = get_profile_media(profile)
-
-    return {
-        'profile': profile,
-        'recent_media': recent_media
-    }
-
-
-@register.inclusion_tag('django_instagram/recent_media_wall.html')
-def instagram_recent_media_wall(*args, **kwargs):
-    profile = instagram_profile_obj(username=kwargs.get('username'))
-    recent_media = get_profile_media(profile)
-
-    return {
-        'profile': profile,
-        'recent_media': recent_media,
-    }
 
 
 @register.filter(name='local_cache')
