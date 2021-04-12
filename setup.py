@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-easy-instagram',
-    version='0.3.3',
+    version='0.3.4',
     description='Instagram client for Django.',
     long_description_content_type='text/markdown',
     long_description=open('README.md', encoding='utf-8').read(),

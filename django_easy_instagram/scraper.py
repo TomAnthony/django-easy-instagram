@@ -12,6 +12,7 @@ import requests
 from socket import error as socket_error
 from requests.exceptions import ConnectionError, HTTPError
 
+from . import settings
 
 SCRIPT_JSON_PREFIX = 18
 SCRIPT_JSON_DATA_INDEX = 21
@@ -25,7 +26,13 @@ def instagram_scrape_profile(username):
     """
     try:
         url = "https://www.instagram.com/{}/".format(username)
-        page = requests.get(url)
+        headers = {
+            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "User-Agent": settings.INSTAGRAM_UA
+        }
+        if settings.INSTAGRAM_COOKIE:
+            headers["Cookie"] = settings.INSTAGRAM_COOKIE
+        page = requests.get(url, headers=headers)
         # Raise error for 404 cause by a bad profile name
         page.raise_for_status()
         return html.parse(page.content, treebuilder="dom")
