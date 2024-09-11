@@ -2,19 +2,16 @@
 
 A Django application that provides a template tag for displaying content from a public Instagram profile. Has ability to cache files locally.
 
-This was originally derived from [Marco Pompili's version](https://github.com/marcopompili/django-instagram), but has now been largely rewritten to use the Instagram Basic Display API.
+This was originally derived from [Marco Pompili's version](https://github.com/marcopompili/django-instagram), but has now been largely rewritten.
 
 ## Requirements
 
-*   [Django >= 1.6](https://www.djangoproject.com/)
-*   [html5lib](https://pypi.python.org/pypi/lxml/3.6.4)
+*   [Django >= 2](https://www.djangoproject.com/)
 *   [requests](https://pypi.python.org/pypi/requests/2.11.1)
 *   [sorl-thumbnail](https://github.com/mariocesar/sorl-thumbnail)
 *   [Pillow](https://pypi.python.org/pypi/Pillow/3.3.1)
 
 ## Installation
-
-NBED: https://developers.facebook.com/docs/instagram-basic-display-api/overview/#user-token-generator
 
 Install Django with your favourite Linux packaging system or you can use pip for installing python packages, if Django is not an official package for your distribution:
 
@@ -110,7 +107,7 @@ By default images will be resized and saved at 80% JPG quality, to
 override this you can use this setting in your Django settings file:
 
 ```bash
-INSTAGRAM_QUALITY = 90
+INSTAGRAM_CACHE_QUALITY = 90
 ```
 
 ## Thanks

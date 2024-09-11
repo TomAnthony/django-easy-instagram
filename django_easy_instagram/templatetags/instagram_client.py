@@ -1,4 +1,4 @@
-import logging
+# import logging
 
 from django import template
 from django.conf import settings as user_settings
@@ -6,30 +6,21 @@ from django.conf import settings as user_settings
 from sorl.thumbnail import get_thumbnail, delete
 
 from django_easy_instagram import settings
-from django_easy_instagram.scraper import instagram_profile_obj
-
-logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+from django_easy_instagram.scraper import get_posts
 
 register = template.Library()
 
 
 class InstagramUserRecentMediaNode(template.Node):
-    """
-    Template node for showing recent media from an user.
-    """
 
     def __init__(self, var_name):
         self.var_name = var_name
         self.username = template.Variable(var_name)
 
     def render(self, context):
+
         try:
-            profile = instagram_profile_obj(self.username.resolve(context))
+            context['recent_media'] = get_posts(self.username.resolve(context))
         except template.base.VariableDoesNotExist:
             logger.warning(
                 " variable name \"{}\" not found in context!"
@@ -37,23 +28,13 @@ class InstagramUserRecentMediaNode(template.Node):
                 " Please use a template variable instead!".format(self.var_name)
             )
 
-            profile = instagram_profile_obj(username=self.var_name)
-
-        if profile:
-            context['profile'] = profile
-            context['recent_media'] = get_profile_media(profile)
+            context['recent_media'] = get_posts(username=self.var_name)
 
         return ''
 
 
 @register.tag
 def instagram_user_recent_media(parser, token):
-    """
-    Tag for getting data about recent media of an user.
-    :param parser:
-    :param token:
-    :return:
-    """
     try:
         tagname, username = token.split_contents()
 

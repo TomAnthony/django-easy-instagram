@@ -15,10 +15,7 @@ setup(
     platforms='any',
     include_package_data=True,
     install_requires=[
-        'django>=2',
-        'html5lib',
         'requests',
         'sorl-thumbnail',
-        'Pillow',
     ]
 )

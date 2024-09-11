@@ -1,85 +1,59 @@
-"""
-Created on 04/sep/2016
-
-@author: Marco Pompili
-"""
-
-import html5lib as html
 import json
 import logging
 import requests
 
-from socket import error as socket_error
-from requests.exceptions import ConnectionError, HTTPError
-
 from . import settings
 
-SCRIPT_JSON_PREFIX = 18
-SCRIPT_JSON_DATA_INDEX = 21
+def get_posts(username):
 
+    # try:
+    ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
+    if hasattr(settings, 'INSTAGRAM_UA') and settings.INSTAGRAM_UA:
+        ua = settings.INSTAGRAM_UA
 
-def instagram_scrape_profile(username):
-    """
-    Scrap an instagram profile page
-    :param username:
-    :return:
-    """
-    try:
-        url = "https://www.instagram.com/{}/".format(username)
-        headers = {
-            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-            "User-Agent": settings.INSTAGRAM_UA
-        }
-        if settings.INSTAGRAM_COOKIE:
-            headers["Cookie"] = settings.INSTAGRAM_COOKIE
-        page = requests.get(url, headers=headers)
-        # Raise error for 404 cause by a bad profile name
-        page.raise_for_status()
-        return html.parse(page.content, treebuilder="dom")
-    except HTTPError:
-        logging.exception('user profile "{}" not found'.format(username))
-    except (ConnectionError, socket_error) as e:
-        logging.exception("instagram.com unreachable")
+    # URL of the Instagram Endpoint
+    url = 'https://www.instagram.com/api/v1/users/web_profile_info/?username=farandride'
 
+    headers = {
+        'accept': '*/*',
+        'accept-language': 'en',
+        'cookie': 'csrftoken=dLUk2HS4UMoL4j5yHNORNw;',
+        'priority': 'u=1, i',
+        'referer': 'https://www.instagram.com/farandride/?hl=de',
+        'user-agent': ua,
+        'x-asbd-id': '129477',
+        'x-csrftoken': 'dLUk2HS4UMoL4j5yHNORNw',
+        'x-ig-app-id': '936619743392459',
+        'x-ig-www-claim': '0',
+        'x-requested-with': 'XMLHttpRequest',
+    }
 
-def instagram_profile_js(username):
-    """
-    Retrieve the script tags from the parsed page.
-    :param username:
-    :return:
-    """
-    try:
-        tree = instagram_scrape_profile(username)
-        return tree.getElementsByTagName("script")
-    except AttributeError:
-        logging.exception("scripts not found")
-        return None
+    response = requests.get(url, headers=headers)
 
+    if response.status_code == 200:
+        # print(response.headers)
+        # print(response.text)
+        data = response.json()
+        # print(data)
+        print("Fetched Instagram data.")
+    else:
+        print(f"Failed to retrieve data. Status code: {response.status_code}")
 
-def instagram_profile_json(username):
-    """
-    Get the JSON data string from the scripts.
-    :param username:
-    :return:
-    """
-    scripts = instagram_profile_js(username)
-    source = None
+    media = []
+    for node in data['data']['user']['edge_owner_to_timeline_media']['edges']:
 
-    if scripts:
-        for script in scripts:
-            if script.hasChildNodes():
-                if script.firstChild.data[0:SCRIPT_JSON_PREFIX] == "window._sharedData":
-                    source = script.firstChild.data[SCRIPT_JSON_DATA_INDEX:-1]
+        for tn in node['node']['thumbnail_resources']:
+            if tn['config_width'] == 480 or tn['config_height'] == 480:
+                thumb = tn['src']
 
-    return source
+        media.append({"taken_at_timestamp":node['node']['taken_at_timestamp'],"description":node['node']['edge_media_to_caption']['edges'][0]['node']['text'], "thumbnail_src": thumb})
 
+    media.sort(key=lambda x: x['taken_at_timestamp'], reverse=True)
 
-def instagram_profile_obj(username):
-    """
-    Retrieve the JSON from the page and parse it to a python dict.
-    :param username:
-    :return:
-    """
-    json_data = instagram_profile_json(username)
+    print(media)
 
-    return json.loads(json_data) if json_data else None
+    return media
+
+    # except:
+    #     logging.exception("An error occurred scraping Instagram")
+

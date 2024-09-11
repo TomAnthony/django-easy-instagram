@@ -1,2 +1,2 @@
-instagram-basic-display==1.2.0
 requests==2.29.0
+sorl-thumbnail==12.6.3
