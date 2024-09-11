@@ -49,7 +49,7 @@ def get_posts(username):
 
         media.sort(key=lambda x: x['taken_at_timestamp'], reverse=True)
 
-        print(media)
+        # print(media)
 
         return media
 
