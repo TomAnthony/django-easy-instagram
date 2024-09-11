@@ -2,4 +2,3 @@ include LICENSE
 include README.md
 recursive-include django_easy_instagram/templates *
 recursive-include django_easy_instagram/static *
-recursive-include docs *

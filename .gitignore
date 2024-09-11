@@ -1,14 +1,4 @@
-*.log
-*.pot
 *.pyc
-
 .project
-.pydevproject
 .settings
-.idea
-venv/
-
-build
-dist
 django_easy_instagram.egg-info
-migrations/

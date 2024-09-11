@@ -1,9 +1,3 @@
-"""
-Created on 12/dic/2013
-
-@author: Marco Pompili
-"""
-
 import logging
 
 from django import template
@@ -22,20 +16,6 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 register = template.Library()
-
-
-def get_profile_media(profile, page=0):
-    """
-    Parse a generated media object
-    :param profile:
-    :param page:
-    :return:
-    """
-    try:
-        edges = profile['entry_data']['ProfilePage'][page]['graphql']['user']['edge_owner_to_timeline_media']['edges']
-        return [edge['node'] for edge in edges]
-    except KeyError:
-        logger.exception("path to profile media not found")
 
 
 class InstagramUserRecentMediaNode(template.Node):
@@ -86,5 +66,5 @@ def instagram_user_recent_media(parser, token):
 
 @register.filter(name='local_cache')
 def local_cache(value, size="600x600"):
-    im = get_thumbnail(value, size, crop='center', quality=settings.INSTAGRAM_QUALITY)
+    im = get_thumbnail(value, size, crop='center', quality=settings.INSTAGRAM_CACHE_QUALITY)
     return im.url

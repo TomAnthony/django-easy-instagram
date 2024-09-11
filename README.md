@@ -2,7 +2,7 @@
 
 A Django application that provides a template tag for displaying content from a public Instagram profile. Has ability to cache files locally.
 
-This is derived from [Marco Pompili's version](https://github.com/marcopompili/django-instagram), which has different requirements and options. Thanks to Marco for doing all the hard work.
+This was originally derived from [Marco Pompili's version](https://github.com/marcopompili/django-instagram), but has now been largely rewritten to use the Instagram Basic Display API.
 
 ## Requirements
 
@@ -13,6 +13,8 @@ This is derived from [Marco Pompili's version](https://github.com/marcopompili/d
 *   [Pillow](https://pypi.python.org/pypi/Pillow/3.3.1)
 
 ## Installation
+
+NBED: https://developers.facebook.com/docs/instagram-basic-display-api/overview/#user-token-generator
 
 Install Django with your favourite Linux packaging system or you can use pip for installing python packages, if Django is not an official package for your distribution:
 
@@ -41,25 +43,16 @@ Add the application to INSTALLED_APPS:
 
 Rebuild your application database, this command depends on which version of Django you are using.
 
-In Django 2.0 (recommended):
+Run your migations:
 
 ```bash
 python manage.py makemigrations django_easy_instagram
-```
-
-Them migrate the db:
-
-```bash
 python manage.py migrate
 ```
 
 ## Usage
 
-The `instagram_user_recent_media` brings into context two objects:
-  - `profile`: Contains the who scraped object.
-  - `recent_media`: Contains the recent media, like 10 or 12 entries or so.
-
-You can display the data contained in `recent_media` list like this:
+You can use `recent_media` (containing 10-12 recent entries) like this:
 
 ```html
 <!DOCTYPE html>
@@ -122,4 +115,4 @@ INSTAGRAM_QUALITY = 90
 
 ## Thanks
 
-The original version and most of the actual work was done by Marco Pompili in the version [available here](https://github.com/marcopompili/django-instagram).
+The original version of this was built by Marco Pompili [available here - abandoned](https://github.com/marcopompili/django-instagram). I've sinced rewritten it to work with Instagram APIs rather than via scraping.
